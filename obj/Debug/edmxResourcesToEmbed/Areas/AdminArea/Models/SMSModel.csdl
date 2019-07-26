@@ -1,0 +1,632 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Accountant">
+    <Key>
+      <PropertyRef Name="AccountantID" />
+    </Key>
+    <Property Name="AccountantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="SMSModel.FK__Accountan__UserI__398D8EEE" FromRole="Accountant" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="ArchivedStudent">
+    <Key>
+      <PropertyRef Name="ArchivedStudentID" />
+    </Key>
+    <Property Name="ArchivedStudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RollNo" Type="Int32" Nullable="false" />
+    <Property Name="SessionYear" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StudentRegID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClassName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="SectionName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AssignStudentdToClass">
+    <Key>
+      <PropertyRef Name="AssignID" />
+    </Key>
+    <Property Name="AssignID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RollNo" Type="Int32" Nullable="false" />
+    <Property Name="SessionYear" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="ClassSectionID" Type="Int32" Nullable="false" />
+    <Property Name="PresentStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__AssignStu__Class__4BAC3F29" FromRole="AssignStudentdToClass" ToRole="Broker_ClassSection" />
+    <NavigationProperty Name="Student" Relationship="Self.FK__AssignStu__Stude__4AB81AF0" FromRole="AssignStudentdToClass" ToRole="Students" />
+  </EntityType>
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="AttendanceID" />
+    </Key>
+    <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassSectionID" Type="Int32" Nullable="false" />
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__Attendanc__Class__628FA481" FromRole="Attendance" ToRole="Broker_ClassSection" />
+    <NavigationProperty Name="Student" Relationship="Self.FK__Attendanc__Stude__6383C8BA" FromRole="Attendance" ToRole="Students" />
+    <NavigationProperty Name="AspNetUser" Relationship="SMSModel.FK__Attendanc__UserI__6477ECF3" FromRole="Attendance" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="Broker_ClassSection">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassID" Type="Int32" Nullable="false" />
+    <Property Name="SectionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AssignStudentdToClasses" Relationship="Self.FK__AssignStu__Class__4BAC3F29" FromRole="Broker_ClassSection" ToRole="AssignStudentdToClass" />
+    <NavigationProperty Name="Attendances" Relationship="Self.FK__Attendanc__Class__628FA481" FromRole="Broker_ClassSection" ToRole="Attendance" />
+    <NavigationProperty Name="Class" Relationship="Self.FK__Broker_Cl__Class__4316F928" FromRole="Broker_ClassSection" ToRole="Classes" />
+    <NavigationProperty Name="Section" Relationship="Self.FK__Broker_Cl__Secti__440B1D61" FromRole="Broker_ClassSection" ToRole="Sections" />
+    <NavigationProperty Name="Broker_TeacherSection" Relationship="Self.FK__Broker_Te__Class__5070F446" FromRole="Broker_ClassSection" ToRole="Broker_TeacherSection" />
+    <NavigationProperty Name="Routines" Relationship="Self.FK__Routine__ClassSe__5EBF139D" FromRole="Broker_ClassSection" ToRole="Routine" />
+    <NavigationProperty Name="StudentPayments" Relationship="Self.FK__StudentPa__Class__6B24EA82" FromRole="Broker_ClassSection" ToRole="StudentPayment" />
+  </EntityType>
+  <EntityType Name="Broker_SubjectTeacher">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubjectName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClassID" Type="Int32" Nullable="false" />
+    <Property Name="TeacherID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Class" Relationship="Self.FK__Broker_Su__Class__5441852A" FromRole="Broker_SubjectTeacher" ToRole="Classes" />
+    <NavigationProperty Name="Routines" Relationship="Self.FK__Routine__Subject__5FB337D6" FromRole="Broker_SubjectTeacher" ToRole="Routine" />
+    <NavigationProperty Name="Teacher" Relationship="SMSModel.FK__Broker_Su__Teach__74AE54BC" FromRole="Broker_SubjectTeacher" ToRole="Teacher" />
+  </EntityType>
+  <EntityType Name="Broker_TeacherSection">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassSectionID" Type="Int32" Nullable="false" />
+    <Property Name="TeacherID" Type="Int32" Nullable="false" />
+    <Property Name="IsClassTeacher" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__Broker_Te__Class__5070F446" FromRole="Broker_TeacherSection" ToRole="Broker_ClassSection" />
+    <NavigationProperty Name="Teacher" Relationship="SMSModel.FK__Broker_Te__Teach__73BA3083" FromRole="Broker_TeacherSection" ToRole="Teacher" />
+  </EntityType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="ClassID" />
+    </Key>
+    <Property Name="ClassID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClassName_Numeric" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__Broker_Cl__Class__4316F928" FromRole="Classes" ToRole="Broker_ClassSection" />
+    <NavigationProperty Name="Broker_SubjectTeacher" Relationship="Self.FK__Broker_Su__Class__5441852A" FromRole="Classes" ToRole="Broker_SubjectTeacher" />
+  </EntityType>
+  <EntityType Name="Exam">
+    <Key>
+      <PropertyRef Name="ExamID" />
+    </Key>
+    <Property Name="ExamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ExamName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ExamDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Marks" Relationship="Self.FK__Marks__ExamID__5BE2A6F2" FromRole="Exams" ToRole="Marks" />
+  </EntityType>
+  <EntityType Name="ExpenseCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActice" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Grade">
+    <Key>
+      <PropertyRef Name="GradeID" />
+    </Key>
+    <Property Name="GradeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GradeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="GradePoint" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+    <Property Name="GradeFrom" Type="Int32" Nullable="false" />
+    <Property Name="GradeUpto" Type="Int32" Nullable="false" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Mark">
+    <Key>
+      <PropertyRef Name="MarksID" />
+    </Key>
+    <Property Name="MarksID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentRegID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ExamID" Type="Int32" Nullable="false" />
+    <Property Name="ClassName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SectionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SubjectMark" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+    <Property Name="EntryBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EntryDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ModifiedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ModifiedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Exam" Relationship="Self.FK__Marks__ExamID__5BE2A6F2" FromRole="Marks" ToRole="Exams" />
+  </EntityType>
+  <EntityType Name="Notice">
+    <Key>
+      <PropertyRef Name="NoticeID" />
+    </Key>
+    <Property Name="NoticeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ImagePath" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="FileLink" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="IsDisplay" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Parent">
+    <Key>
+      <PropertyRef Name="ParentID" />
+    </Key>
+    <Property Name="ParentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Profession" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Students" Relationship="Self.FK__Students__Parent__46E78A0C" FromRole="Parents" ToRole="Students" />
+    <NavigationProperty Name="AspNetUser" Relationship="SMSModel.FK__Parents__UserID__3C69FB99" FromRole="Parent" ToRole="AspNetUser" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Routine">
+    <Key>
+      <PropertyRef Name="RoutineID" />
+    </Key>
+    <Property Name="RoutineID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClassSectionID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectTeacherID" Type="Int32" Nullable="false" />
+    <Property Name="Day" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StartTime" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EndTime" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__Routine__ClassSe__5EBF139D" FromRole="Routine" ToRole="Broker_ClassSection" />
+    <NavigationProperty Name="Broker_SubjectTeacher" Relationship="Self.FK__Routine__Subject__5FB337D6" FromRole="Routine" ToRole="Broker_SubjectTeacher" />
+  </EntityType>
+  <EntityType Name="Section">
+    <Key>
+      <PropertyRef Name="SectionID" />
+    </Key>
+    <Property Name="SectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SectionName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="NickName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__Broker_Cl__Secti__440B1D61" FromRole="Sections" ToRole="Broker_ClassSection" />
+  </EntityType>
+  <EntityType Name="StudentPayment">
+    <Key>
+      <PropertyRef Name="PaymentID" />
+    </Key>
+    <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentRegID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClassSectionID" Type="Int32" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Date" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TotalAmmount" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="PayAmmount" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PayMethod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EntryBy" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Broker_ClassSection" Relationship="Self.FK__StudentPa__Class__6B24EA82" FromRole="StudentPayment" ToRole="Broker_ClassSection" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentRegID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" Nullable="false" />
+    <Property Name="BirthDate" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="AssignStudentdToClasses" Relationship="Self.FK__AssignStu__Stude__4AB81AF0" FromRole="Students" ToRole="AssignStudentdToClass" />
+    <NavigationProperty Name="Attendances" Relationship="Self.FK__Attendanc__Stude__6383C8BA" FromRole="Students" ToRole="Attendance" />
+    <NavigationProperty Name="Parent" Relationship="Self.FK__Students__Parent__46E78A0C" FromRole="Students" ToRole="Parents" />
+    <NavigationProperty Name="AspNetUser" Relationship="SMSModel.FK__Students__UserID__47DBAE45" FromRole="Student" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="FK__AssignStu__Class__4BAC3F29">
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="1" />
+    <End Role="AssignStudentdToClass" Type="Self.AssignStudentdToClass" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_ClassSection">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AssignStudentdToClass">
+        <PropertyRef Name="ClassSectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AssignStu__Stude__4AB81AF0">
+    <End Role="Students" Type="Self.Student" Multiplicity="1" />
+    <End Role="AssignStudentdToClass" Type="Self.AssignStudentdToClass" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="AssignStudentdToClass">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Class__628FA481">
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_ClassSection">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="ClassSectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Stude__6383C8BA">
+    <End Role="Students" Type="Self.Student" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Cl__Class__4316F928">
+    <End Role="Classes" Type="Self.Class" Multiplicity="1" />
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="ClassID" />
+      </Principal>
+      <Dependent Role="Broker_ClassSection">
+        <PropertyRef Name="ClassID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Cl__Secti__440B1D61">
+    <End Role="Sections" Type="Self.Section" Multiplicity="1" />
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sections">
+        <PropertyRef Name="SectionID" />
+      </Principal>
+      <Dependent Role="Broker_ClassSection">
+        <PropertyRef Name="SectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Te__Class__5070F446">
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="1" />
+    <End Role="Broker_TeacherSection" Type="Self.Broker_TeacherSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_ClassSection">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Broker_TeacherSection">
+        <PropertyRef Name="ClassSectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Routine__ClassSe__5EBF139D">
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="1" />
+    <End Role="Routine" Type="Self.Routine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_ClassSection">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Routine">
+        <PropertyRef Name="ClassSectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__StudentPa__Class__6B24EA82">
+    <End Role="Broker_ClassSection" Type="Self.Broker_ClassSection" Multiplicity="1" />
+    <End Role="StudentPayment" Type="Self.StudentPayment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_ClassSection">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="StudentPayment">
+        <PropertyRef Name="ClassSectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Su__Class__5441852A">
+    <End Role="Classes" Type="Self.Class" Multiplicity="1" />
+    <End Role="Broker_SubjectTeacher" Type="Self.Broker_SubjectTeacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Classes">
+        <PropertyRef Name="ClassID" />
+      </Principal>
+      <Dependent Role="Broker_SubjectTeacher">
+        <PropertyRef Name="ClassID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Routine__Subject__5FB337D6">
+    <End Role="Broker_SubjectTeacher" Type="Self.Broker_SubjectTeacher" Multiplicity="1" />
+    <End Role="Routine" Type="Self.Routine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Broker_SubjectTeacher">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Routine">
+        <PropertyRef Name="SubjectTeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Marks__ExamID__5BE2A6F2">
+    <End Role="Exams" Type="Self.Exam" Multiplicity="1" />
+    <End Role="Marks" Type="Self.Mark" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Exams">
+        <PropertyRef Name="ExamID" />
+      </Principal>
+      <Dependent Role="Marks">
+        <PropertyRef Name="ExamID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__Parent__46E78A0C">
+    <End Role="Parents" Type="Self.Parent" Multiplicity="1" />
+    <End Role="Students" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parents">
+        <PropertyRef Name="ParentID" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SMSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accountants" EntityType="Self.Accountant" />
+    <EntitySet Name="ArchivedStudents" EntityType="Self.ArchivedStudent" />
+    <EntitySet Name="AssignStudentdToClasses" EntityType="Self.AssignStudentdToClass" />
+    <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+    <EntitySet Name="Broker_ClassSection" EntityType="Self.Broker_ClassSection" />
+    <EntitySet Name="Broker_SubjectTeacher" EntityType="Self.Broker_SubjectTeacher" />
+    <EntitySet Name="Broker_TeacherSection" EntityType="Self.Broker_TeacherSection" />
+    <EntitySet Name="Classes" EntityType="Self.Class" />
+    <EntitySet Name="Exams" EntityType="Self.Exam" />
+    <EntitySet Name="ExpenseCategories" EntityType="Self.ExpenseCategory" />
+    <EntitySet Name="Grades" EntityType="Self.Grade" />
+    <EntitySet Name="Marks" EntityType="Self.Mark" />
+    <EntitySet Name="Notices" EntityType="Self.Notice" />
+    <EntitySet Name="Parents" EntityType="Self.Parent" />
+    <EntitySet Name="Routines" EntityType="Self.Routine" />
+    <EntitySet Name="Sections" EntityType="Self.Section" />
+    <EntitySet Name="StudentPayments" EntityType="Self.StudentPayment" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <AssociationSet Name="FK__AssignStu__Class__4BAC3F29" Association="Self.FK__AssignStu__Class__4BAC3F29">
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+      <End Role="AssignStudentdToClass" EntitySet="AssignStudentdToClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AssignStu__Stude__4AB81AF0" Association="Self.FK__AssignStu__Stude__4AB81AF0">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="AssignStudentdToClass" EntitySet="AssignStudentdToClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Class__628FA481" Association="Self.FK__Attendanc__Class__628FA481">
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Stude__6383C8BA" Association="Self.FK__Attendanc__Stude__6383C8BA">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Cl__Class__4316F928" Association="Self.FK__Broker_Cl__Class__4316F928">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Cl__Secti__440B1D61" Association="Self.FK__Broker_Cl__Secti__440B1D61">
+      <End Role="Sections" EntitySet="Sections" />
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Te__Class__5070F446" Association="Self.FK__Broker_Te__Class__5070F446">
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+      <End Role="Broker_TeacherSection" EntitySet="Broker_TeacherSection" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Routine__ClassSe__5EBF139D" Association="Self.FK__Routine__ClassSe__5EBF139D">
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+      <End Role="Routine" EntitySet="Routines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__StudentPa__Class__6B24EA82" Association="Self.FK__StudentPa__Class__6B24EA82">
+      <End Role="Broker_ClassSection" EntitySet="Broker_ClassSection" />
+      <End Role="StudentPayment" EntitySet="StudentPayments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Su__Class__5441852A" Association="Self.FK__Broker_Su__Class__5441852A">
+      <End Role="Classes" EntitySet="Classes" />
+      <End Role="Broker_SubjectTeacher" EntitySet="Broker_SubjectTeacher" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Routine__Subject__5FB337D6" Association="Self.FK__Routine__Subject__5FB337D6">
+      <End Role="Broker_SubjectTeacher" EntitySet="Broker_SubjectTeacher" />
+      <End Role="Routine" EntitySet="Routines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Marks__ExamID__5BE2A6F2" Association="Self.FK__Marks__ExamID__5BE2A6F2">
+      <End Role="Exams" EntitySet="Exams" />
+      <End Role="Marks" EntitySet="Marks" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__Parent__46E78A0C" Association="Self.FK__Students__Parent__46E78A0C">
+      <End Role="Parents" EntitySet="Parents" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+    <EntitySet Name="AspNetUsers" EntityType="SMSModel.AspNetUser" />
+    <AssociationSet Name="FK__Accountan__UserI__398D8EEE" Association="SMSModel.FK__Accountan__UserI__398D8EEE">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Accountant" EntitySet="Accountants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__UserI__6477ECF3" Association="SMSModel.FK__Attendanc__UserI__6477ECF3">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Attendance" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Parents__UserID__3C69FB99" Association="SMSModel.FK__Parents__UserID__3C69FB99">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Parent" EntitySet="Parents" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Students__UserID__47DBAE45" Association="SMSModel.FK__Students__UserID__47DBAE45">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <EntitySet Name="Teachers" EntityType="SMSModel.Teacher" />
+    <AssociationSet Name="FK__Teachers__UserID__72C60C4A" Association="SMSModel.FK__Teachers__UserID__72C60C4A">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Teacher" EntitySet="Teachers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Su__Teach__74AE54BC" Association="SMSModel.FK__Broker_Su__Teach__74AE54BC">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Broker_SubjectTeacher" EntitySet="Broker_SubjectTeacher" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Broker_Te__Teach__73BA3083" Association="SMSModel.FK__Broker_Te__Teach__73BA3083">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Broker_TeacherSection" EntitySet="Broker_TeacherSection" />
+    </AssociationSet>
+    <EntitySet Name="AspNetRoles" EntityType="SMSModel.AspNetRole" />
+    <AssociationSet Name="AspNetUserRoles" Association="SMSModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Accountants" Relationship="SMSModel.FK__Accountan__UserI__398D8EEE" FromRole="AspNetUser" ToRole="Accountant" />
+    <NavigationProperty Name="Attendances" Relationship="SMSModel.FK__Attendanc__UserI__6477ECF3" FromRole="AspNetUser" ToRole="Attendance" />
+    <NavigationProperty Name="Parents" Relationship="SMSModel.FK__Parents__UserID__3C69FB99" FromRole="AspNetUser" ToRole="Parent" />
+    <NavigationProperty Name="Students" Relationship="SMSModel.FK__Students__UserID__47DBAE45" FromRole="AspNetUser" ToRole="Student" />
+    <NavigationProperty Name="Teachers" Relationship="SMSModel.FK__Teachers__UserID__72C60C4A" FromRole="AspNetUser" ToRole="Teacher" />
+    <NavigationProperty Name="AspNetRoles" Relationship="SMSModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <Association Name="FK__Accountan__UserI__398D8EEE">
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="SMSModel.Accountant" Role="Accountant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accountant">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__UserI__6477ECF3">
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="SMSModel.Attendance" Role="Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Parents__UserID__3C69FB99">
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="SMSModel.Parent" Role="Parent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parent">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Students__UserID__47DBAE45">
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="SMSModel.Student" Role="Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeacherName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Designation" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDay" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="AspNetUser" Relationship="SMSModel.FK__Teachers__UserID__72C60C4A" FromRole="Teacher" ToRole="AspNetUser" />
+    <NavigationProperty Name="Broker_SubjectTeacher" Relationship="SMSModel.FK__Broker_Su__Teach__74AE54BC" FromRole="Teacher" ToRole="Broker_SubjectTeacher" />
+    <NavigationProperty Name="Broker_TeacherSection" Relationship="SMSModel.FK__Broker_Te__Teach__73BA3083" FromRole="Teacher" ToRole="Broker_TeacherSection" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__Teachers__UserID__72C60C4A">
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+    <End Type="SMSModel.Teacher" Role="Teacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Teacher">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Su__Teach__74AE54BC">
+    <End Type="SMSModel.Teacher" Role="Teacher" Multiplicity="1" />
+    <End Type="SMSModel.Broker_SubjectTeacher" Role="Broker_SubjectTeacher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Broker_SubjectTeacher">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Broker_Te__Teach__73BA3083">
+    <End Type="SMSModel.Teacher" Role="Teacher" Multiplicity="1" />
+    <End Type="SMSModel.Broker_TeacherSection" Role="Broker_TeacherSection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Broker_TeacherSection">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="SMSModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <Association Name="AspNetUserRoles">
+    <End Type="SMSModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="SMSModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+</Schema>
