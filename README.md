@@ -1,1 +1,1 @@
-# School_Management-_System
+# School Management System in ASP.Net MVC
