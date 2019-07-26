@@ -1,0 +1,283 @@
+﻿@using System.Activities.Expressions
+@model School_Management_System.Areas.AdminArea.ViewModels.SubjectVM
+
+@{
+    ViewBag.Title = "Subject";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+
+
+}
+
+<style>
+    table.dataTable td.dataTables_empty {
+        text-align: center;
+    }
+
+    #classTable {
+        width: 100%;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Manage Subject</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+
+                    <div class="card">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#ViewAll" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Subject List</span></a> </li>
+                            <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#AddClass" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Add Subject</span></a> </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="ViewAll" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="subjectTable" class="table table-striped table-responsive-lg">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#ID</th>
+                                                        <th>Subject Name</th>
+                                                        <th>Class Name</th>
+                                                        <th>Teacher Name</th>
+                                                        <th class="text-nowrap">Action</th>
+                                                    </tr>
+                                                </thead>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane  p-20" id="AddClass" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="col-md-12">
+                                                    <div class="card card-body">
+                                                        @using (Html.BeginForm("AddSubject", "Subject"))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+
+
+                                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                            <div class="form-group row">
+                                                                @Html.LabelFor(model => model.SubjectName, htmlAttributes: new { @class = "col-sm-4 text-right control-label col-form-label" })
+                                                                <div class="col-md-8">
+                                                                    @Html.EditorFor(model => model.SubjectName, new { htmlAttributes = new { @class = "form-control" } })
+                                                                    @Html.ValidationMessageFor(model => model.SubjectName, "", new { @class = "text-danger" })
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group row">
+                                                                @Html.LabelFor(model => model.ClassID, htmlAttributes: new { @class = "col-sm-4 text-right control-label col-form-label" })
+                                                                <div class="col-md-8">
+                                                                    @Html.DropDownListFor( model => model.ClassID, ViewBag.Classes as SelectList, "Select Class", htmlAttributes: new {@class = "form-control"})
+
+                                                                    @Html.ValidationMessageFor(model => model.ClassID, "", new {@class = "text-danger"})
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                @Html.LabelFor(model => model.TeacherID, htmlAttributes: new { @class = "col-sm-4 text-right control-label col-form-label" })
+                                                                <div class="col-md-8">
+                                                                    @Html.DropDownListFor( model => model.TeacherID, ViewBag.Teachers as SelectList, "Select Class", htmlAttributes: new {@class = "form-control"})
+
+                                                                    @Html.ValidationMessageFor(model => model.TeacherID, "", new {@class = "text-danger"})
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-group m-b-0">
+                                                                <div class="offset-sm-4 col-sm-8">
+                                                                    <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Add</button>
+                                                                </div>
+                                                            </div>
+
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+@using (Html.BeginForm("EditSubject", "Subject", FormMethod.Post))
+{
+    <div id="editSubject" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="editClassLabel">Edit Class</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body" id="subjectEditModal">
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info waves-effect">Update</button>
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+}
+
+
+
+
+
+
+<div id="deletesSubject" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editClassLabel">Delete Subject</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("subjectID")
+                <h4>Are you sure to delete?</h4>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info waves-effect" onclick="deleteSubject()">Delete</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+@section scripts
+        {
+
+    <script src="~/Scripts/jquery.datatable.min.js"></script>
+
+    <script src="~/Scripts/notify.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $(document).ready(function () {
+                var table = $('#subjectTable').DataTable({
+                    "ajax": {
+                        "url": "/AdminArea/Subject/ViewAll",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "ID" },
+                        { "data": "SubjectName" },
+                        { "data": "ClassName" },
+                        { "data": "TeacherName" },
+                        {
+                            "data": "ID",
+                            "render":
+                                function (data) {
+                                    return '<div class="btn-group">' +
+                                        '<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action' +
+                                        '</button> <div class="dropdown-menu">' +
+                                        '<a class="dropdown-item" href="javascript:void(0)" onclick="return editFormLoad(' + data + ')" data-toggle="modal" data-target="#editSubject"><i class="fa fa-edit"></i> Edit</a>' +
+                                        '<div class="dropdown-divider"></div>' +
+                                        '<a class="dropdown-item" href="javascript:void(0)" onclick="ConfirmDelete(' + data + ')"data-toggle="modal" data-target="#deletesSubject"><i class="fa fa-trash-o text-danger"></i> Delete</a>' +
+                                        '</div></div>';
+                                }
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "There is no data please <strong>Add New Subject</strong>"
+                    }
+                });
+
+
+            });
+
+
+        });
+
+
+        var editFormLoad = function (id) {
+
+            $.ajax({
+                url: "/AdminArea/Subject/EditSubject?id=" + id,
+                type: "GET",
+                contentType: "application/html;charset=UTF-8",
+                dataType: "html",
+                success: function (result) {
+                    $("#subjectEditModal").html(result);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+
+        }
+
+        var ConfirmDelete = function (subjectID) {
+
+            $("#subjectID").val(subjectID);
+
+        }
+
+        var deleteSubject = function () {
+            var subID = $("#subjectID").val();
+            $.ajax({
+                url: "/AdminArea/Subject/DeleteSubject",
+                type: "POST",
+                data: { id: subID},
+                success: function (result) {
+                    $("#deletesSubject").modal("hide");
+                    $('#subjectTable').DataTable().ajax.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+        }
+
+
+
+
+
+    </script>
+}
+
+
+
+

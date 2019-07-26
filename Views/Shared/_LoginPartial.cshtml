@@ -1,0 +1,13 @@
+﻿
+@{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+        <a href="javascript:document.getElementById('logoutForm').submit()" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+    }
+}
+
+
+
+
+

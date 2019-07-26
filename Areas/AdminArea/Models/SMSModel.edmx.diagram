@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6f7ee7d0ce7a40c4984964f18436c4e0" Name="Diagram1" ZoomLevel="114">
+        <EntityTypeShape EntityType="SMSModel.Accountant" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.ArchivedStudent" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.AssignStudentdToClass" Width="1.5" PointX="8.25" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Attendance" Width="1.5" PointX="5.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Broker_ClassSection" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Broker_SubjectTeacher" Width="1.5" PointX="6" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Broker_TeacherSection" Width="1.5" PointX="5.25" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Class" Width="1.5" PointX="0.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Exam" Width="1.5" PointX="5.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.ExpenseCategory" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Grade" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Mark" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Notice" Width="1.5" PointX="11.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Parent" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Routine" Width="1.5" PointX="11.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Section" Width="1.5" PointX="3.375" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.StudentPayment" Width="1.5" PointX="5.25" PointY="23.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SMSModel.Student" Width="1.5" PointX="3" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="SMSModel.FK__AssignStu__Class__4BAC3F29" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__AssignStu__Stude__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Attendanc__Class__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Attendanc__Stude__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Cl__Class__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Cl__Secti__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Te__Class__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Routine__ClassSe__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__StudentPa__Class__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Su__Class__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Routine__Subject__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Marks__ExamID__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="SMSModel.FK__Students__Parent__46E78A0C" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="SMSModel.AspNetUser" Width="1.5" PointX="1.375" PointY="11.5" />
+        <AssociationConnector Association="SMSModel.FK__Accountan__UserI__398D8EEE" />
+        <AssociationConnector Association="SMSModel.FK__Attendanc__UserI__6477ECF3" />
+        <AssociationConnector Association="SMSModel.FK__Parents__UserID__3C69FB99" />
+        <AssociationConnector Association="SMSModel.FK__Students__UserID__47DBAE45" />
+        <EntityTypeShape EntityType="SMSModel.Teacher" Width="1.5" PointX="3.625" PointY="17.125" />
+        <AssociationConnector Association="SMSModel.FK__Teachers__UserID__72C60C4A" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Su__Teach__74AE54BC" />
+        <AssociationConnector Association="SMSModel.FK__Broker_Te__Teach__73BA3083" />
+        <EntityTypeShape EntityType="SMSModel.AspNetRole" Width="1.5" PointX="1.375" PointY="17" />
+        <AssociationConnector Association="SMSModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

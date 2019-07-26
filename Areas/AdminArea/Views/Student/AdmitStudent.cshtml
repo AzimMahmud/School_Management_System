@@ -1,0 +1,168 @@
+﻿@using System.Web.Security
+@using School_Management_System.Areas.AdminArea.HelperClass
+@model School_Management_System.Areas.AdminArea.ViewModels.StudentVM
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+
+    var password = Membership.GeneratePassword(12, 3);
+
+}
+
+@section css{
+    <link href="~/Content/dropify.min.css" rel="stylesheet" />
+}
+
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white"><i class="fa fa-plus-circle text-white m-r-10"></i><small>Admission Form</small></h4>
+            </div>
+            <div class="card-body">
+                <form action="~/AdminArea/Student/Add" class="form-horizontal form-bordered" method="post" enctype = "multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <div class="form-body">
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.StudentName, htmlAttributes: new { @class = "form-control", placeholder = "Full Name" })
+                                @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3" for="ParentID">Parent</label>
+
+                            <div class="col-md-9">
+                                @Html.DropDownList("ParentID", null, "Select Parent", htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ClassID, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @if (ViewBag.ClassID != null)
+                                {
+                                    @Html.DropDownListFor(model => model.ClassID, ViewBag.ClassID as SelectList, "Select Class", htmlAttributes: new { @class = "form-control" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.ClassID, null, "Select Class", htmlAttributes: new { @class = "form-control" })
+
+                                }
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.SectionID, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+
+                                @Html.DropDownListFor(model => model.SectionID, new SelectList(" "), "Select Section", htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.DropDownList("Gender", new SelectList(Enum.GetValues(typeof(UserGender))), "Select Gender", htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.BirthDate, new { type = "date", @class = "form-control", placeholder = "dd/mm/yyyy" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.Email, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.PasswordFor(model => model.Password, htmlAttributes: new { value = password, @class = "form-control" })
+                            </div>
+                        </div>
+  
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+
+                            <div class="col-md-9">
+                                @Html.PasswordFor(model => model.ConfirmPassword, htmlAttributes: new { value = password, @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label text-right col-md-3">Photo</label>
+                            <div class="col-md-5">
+                                <input type="file" class="dropify" name="ImageUpload" accept="image/jpeg, image/png"  data-height="100"/>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="offset-sm-3 col-md-9">
+                                            <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/dropify.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.dropify').dropify();
+        });
+
+
+        $(document).ready(function() {
+            
+            $('#ClassID').change(function () {
+                var classid = $("#ClassID").val();
+                
+                $.ajax({
+                    url: "/AdminArea/Student/GetSections/" + classid,
+                    type: "GET",
+                    contentType: "application/html;charset=UTF-8",
+                    dataType: "html",
+                    success: function(result) {
+                        
+                        $("#SectionID").empty();
+                        $("#SectionID").append(result);
+
+                    },
+                    error: function(errormessage) {
+                        alert(errormessage.responseText);
+                    }
+
+                });
+            });
+        });
+    </script>
+}

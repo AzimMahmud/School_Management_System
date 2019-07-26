@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminArea/Views/Shared/_Layout.cshtml";
+}
+
+@section css{
+
+    <style>
+        .modal-body {
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-12">
+
+        <div id="buttonList" class="d-flex justify-content-end align-items-center m-b-10 m-t-30">
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" id="activeButton" onclick="loadActiveData()" hidden=""><i class="fa fa-database "></i> Active Data</button>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" onclick="loadAllDeletedData()"><i class="fa fa-database "></i> Archive Data</button>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15" onclick="addFormLoad()" data-toggle="modal" data-target="#addTeacher"><i class="fa fa-plus-circle"></i> Add New Teacher</button>
+        </div>
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white">Teacher List</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+
+                    <div class="card">
+
+
+                        <div class="table-responsive">
+                            <table id="teacherTable" class="table table-striped table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                        <th>#ID</th>
+                                        <th>Name</th>
+                                        <th>Birth Day</th>
+                                        <th>Designation</th>
+
+                                        <th class="text-nowrap">Action</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@using (Html.BeginForm("Add", "Teacher", FormMethod.Post))
+{
+    <div id="addTeacher" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="editClassLabel">Add Teacher</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body" id="teacherAddForm">
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+}
+
+
+
+@using (Html.BeginForm("Edit", "Teacher", FormMethod.Post))
+{
+    <div id="editTeacher" class="modal fade in">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="editClassLabel">Edit Teacher</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body" id="teacherEditForm">
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+}
+
+
+<div id="deleteTeacher" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteTeacherLabel">Delete Teacher</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                @Html.Hidden("teacherID")
+                <h4>Are you sure to delete?</h4>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info waves-effect" onclick="deleteTeacher()">Delete</button>
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.datatable.min.js"></script>
+
+    <script>
+
+
+        var addFormLoad = function () {
+
+            $.ajax({
+                url: "/AdminArea/Teacher/AddTeacher",
+                type: "GET",
+                contentType: "application/html;charset=UTF-8",
+                dataType: "html",
+                success: function (result) {
+                    $("#teacherAddForm").html(result);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+
+        }
+
+        var editFormLoad = function (id) {
+
+            $.ajax({
+                url: "/AdminArea/Teacher/EditTeacher?id=" + id,
+                type: "GET",
+                contentType: "application/html;charset=UTF-8",
+                dataType: "html",
+                success: function (result) {
+                    $("#teacherEditForm").html(result);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+
+        }
+
+
+        var loadAllDeletedData = function () {
+
+            if ($("#activeButton").attr("hidden")) {
+            $("#activeButton").attr("hidden");
+            }
+           
+            var table = $('#teacherTable').DataTable({
+                "destroy" : true,
+                "ajax": {
+                    "url": "/AdminArea/Teacher/ArchiveData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "TeacherID" },
+                    { "data": "TeacherName" },
+                    { "data": "BirthDay" },
+                    { "data": "Designation" },
+                    {
+                        "data": "TeacherID",
+                        "render":
+                            function (data) {
+                                return '<div class="btn-group">' +
+                                    '<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action' +
+                                    '</button> <div class="dropdown-menu">' +
+                                    '<a class="dropdown-item" href="javascript:void(0)" onclick="return undoData(' + data + ')" ><i class="fa fa fa-undo"></i> Restore</a>' +
+                                    '<div class="dropdown-divider"></div>' +
+                                    '</div></div>';
+                            }
+                    }
+                ],
+                "language": {
+                    "emptyTable": "There is no data please <strong>Add New Teacher</strong>"
+                }
+            });
+
+
+        }
+
+        var ConfirmDelete = function (teacherID) {
+
+            $("#teacherID").val(teacherID);
+
+        }
+        var loadActiveData = function() {
+            $('#teacherTable').DataTable().ajax.reload();
+            var table = $('#teacherTable').DataTable({
+                "destroy":true,
+                "ajax": {
+                    "url": "/AdminArea/Teacher/LoadAllData",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "TeacherID" },
+                    { "data": "TeacherName" },
+                    { "data": "BirthDay" },
+                    { "data": "Designation" },
+                    {
+                        "data": "TeacherID",
+                        "render":
+                            function (data) {
+                                return '<div class="btn-group">' +
+                                    '<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action' +
+                                    '</button> <div class="dropdown-menu">' +
+                                    '<a class="dropdown-item" href="javascript:void(0)" onclick="return editFormLoad(' + data + ')" data-toggle="modal" data-target="#editTeacher"><i class="fa fa-edit"></i> Edit</a>' +
+                                    '<div class="dropdown-divider"></div>' +
+                                    '<a class="dropdown-item" href="javascript:void(0)" onclick="ConfirmDelete(' + data + ')"data-toggle="modal" data-target="#deleteTeacher"><i class="fa fa-trash-o text-danger"></i> Delete</a>' +
+                                    '</div></div>';
+                            }
+                    }
+                ],
+                "language": {
+                    "emptyTable": "There is no data please <strong>Add New Teacher</strong>"
+                }
+            });
+        }
+        var deleteTeacher = function () {
+            var teacherID = $("#teacherID").val();
+            $.ajax({
+                url: "/AdminArea/Teacher/DeleteTeacher",
+                type: "POST",
+                data: { id: teacherID},
+                success: function (result) {
+                    $("#deleteTeacher").modal("hide");
+                    $('#teacherTable').DataTable().ajax.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+        }
+
+        var undoData = function (teacherID) {
+            
+            $.ajax({
+                url: "/AdminArea/Teacher/UndoDeletedData",
+                type: "POST",
+                data: { id: teacherID},
+                success: function (result) {
+                    $('#teacherTable').DataTable().ajax.reload();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+
+            });
+        }
+
+         $(document).ready(function () {
+            $(document).ready(function () {
+                var table = $('#teacherTable').DataTable({
+                    "ajax": {
+                        "url": "/AdminArea/Teacher/LoadAllData",
+                        "type": "GET",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "TeacherID" },
+                        { "data": "TeacherName" },
+                        { "data": "BirthDay" },
+                        { "data": "Designation" },
+                        {
+                            "data": "TeacherID",
+                            "render":
+                                function (data) {
+                                    return '<div class="btn-group">' +
+                                        '<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action' +
+                                        '</button> <div class="dropdown-menu">' +
+                                        '<a class="dropdown-item" href="javascript:void(0)" onclick="return editFormLoad(' + data + ')" data-toggle="modal" data-target="#editTeacher"><i class="fa fa-edit"></i> Edit</a>' +
+                                        '<div class="dropdown-divider"></div>' +
+                                        '<a class="dropdown-item" href="javascript:void(0)" onclick="ConfirmDelete(' + data + ')"data-toggle="modal" data-target="#deleteTeacher"><i class="fa fa-trash-o text-danger"></i> Delete</a>' +
+                                        '</div></div>';
+                                }
+                        }
+                    ],
+                    "language": {
+                        "emptyTable": "There is no data please <strong>Add New Teacher</strong>"
+                    }
+                });
+
+
+            });
+
+
+        });
+
+
+    </script>
+
+}

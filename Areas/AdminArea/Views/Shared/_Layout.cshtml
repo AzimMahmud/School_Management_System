@@ -1,0 +1,286 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Custom CSS -->
+    @RenderSection("css", required: false)
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="skin-blue fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Elite admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">
+                        <!-- Logo icon --><b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="../../Images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="../../Images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <span class="hidden-xs"><span class="font-bold">elite</span>university</span>
+                    </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link navbar-toggler d-block d-sm-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-lg-block d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
+                        <!-- ============================================================== -->
+
+
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+
+                        <!-- ============================================================== -->
+                        <!-- User Profile -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown u-pro">
+                            <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.Identity.GetUserName()</a>
+                            <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                                <!-- text-->
+                                <a href="~/Manage/ChangePassword" class="dropdown-item"><i class="ti-settings"></i> Change Password</a>
+                                <!-- text-->
+                                <div class="dropdown-divider"></div>
+                                <!-- text-->
+                                @Html.Partial("_LoginPartial")
+                                <!-- text-->
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- End User Profile -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+
+                        <li>
+                            <a class="waves-effect waves-dark" href="#"><i class="icon-speedometer"></i><span class="hide-menu">@ViewBag.UserName Home</span></a>
+                        </li>
+                        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                        {
+                            <li>
+                                <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-people"></i><span class="hide-menu">Manage Users</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li>@*<a href="~/AdminArea/Admin/details">Admin</a>*@</li>
+                                    <li><a href="~/AdminArea/Teacher/details">Teacher</a></li>
+                                    <li><a href="~/AdminArea/Parent/details">Parents</a></li>
+                                    @*<li><a href="university-professor-profile.html">Accountant</a></li>*@
+                                </ul>
+                            </li>
+                        }
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-graduation-cap"></i><span class="hide-menu">Manage Student</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                            {
+                                <li><a href="~/AdminArea/Student/Add">Admint Student</a></li>
+                            }
+                                <li><a href="~/AdminArea/Student/Index">Student Information</a></li>
+                                @*<li><a href="university-edit-student.html">Student Promotion</a></li>*@
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-bars"></i><span class="hide-menu">Academic &amp; Classes</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="~/AdminArea/Class/Details">Manage Classes</a></li>
+                                <li><a href="~/AdminArea/Section/Details">Manage Sections</a></li>
+                                <li><a href="~/AdminArea/AssignSection/Details">Assign Section</a></li>
+                                @*<li><a href="university-edit-course.html">Academic Syllabus Course</a></li>*@
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="waves-effect waves-dark" href="~/AdminArea/Subject/Details"><i class="ti-calendar"></i><span class="hide-menu">Subjects</span></a>
+                        </li>
+
+                        @*<li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-building"></i><span class="hide-menu">Class Routine</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="university-departments.html">Add Routine</a></li>
+                                <li><a href="university-add-department.html">All Routines</a></li>
+                            </ul>
+                        </li>*@
+                        @*<li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Daily Attendance</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="university-library-assets.html">Daily Attendance</a></li>
+                                <li><a href="university-add-asset.html">Attendence Report</a></li>
+                            </ul>
+                        </li>*@
+                        @*<li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-bars"></i><span class="hide-menu">Exam</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="university-courses.html">Exam List</a></li>
+                                <li><a href="university-add-course.html">Exam Grades</a></li>
+                                <li><a href="university-edit-course.html">Manage Marks</a></li>
+                                <li><a href="university-edit-course.html">Tabular Sheet</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="icon-chart"></i><span class="hide-menu">Reports</span></a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li><a href="university-general-report.html">General Report</a></li>
+                                <li><a href="university-income-report.html">Payment Report</a></li>
+                                <li><a href="university-expense-report.html">Expense Report</a></li>
+                            </ul>
+                        </li>*@
+                        <li>
+                            <a class="waves-effect waves-dark" href="~/AdminArea/Role/Index"><i class="ti-calendar"></i><span class="hide-menu">Role</span></a>
+                        </li>
+                        <li class="nav-small-cap"></li>
+
+
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">@ViewBag.Title</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">Starter Page</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-12">
+
+                        @RenderBody()
+
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer class="footer">
+            © 2018 Eliteadmin by themedesigner.in
+        </footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+@RenderSection("scripts", required: false)
+
+@Scripts.Render("~/bundles/customjs")
+</body>
+
+</html>
+
+
+
+
+

@@ -1,0 +1,68 @@
+﻿@model School_Management_System.Areas.AdminArea.Models.Teacher
+
+@using School_Management_System.Areas.AdminArea.HelperClass
+
+@Html.AntiForgeryToken()
+<div class="form-body">
+    @Html.HiddenFor(model => model.TeacherID)
+    @Html.HiddenFor(model => model.UserID)
+    <div class="form-group row">
+        @Html.LabelFor(model => model.TeacherName, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.TeacherName, new { htmlAttributes = new { @class = "form-control", placeholder = "Full Name" } })
+            @Html.ValidationMessageFor(model => model.TeacherName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.BirthDay, new { @class = "control-label text-right col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.BirthDay, new { htmlAttributes = new { @class = "form-control", type = "date", placeholder = "mm/dd/yyyy" } })
+            @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", placeholder = "Designation" } })
+            @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+        <div class="col-md-9">
+            @Html.DropDownListFor(model => model.Gender, new SelectList(Enum.GetValues(typeof(UserGender))), "Select Gender", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    @*<div class="form-group row">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.PhoneNumber,  new { @class = "form-control" })
+            </div>
+        </div>*@
+
+    <div class="form-group row">
+        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label text-right col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="offset-sm-3 col-md-9">
+                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

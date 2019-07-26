@@ -1,0 +1,37 @@
+﻿@model School_Management_System.Areas.AdminArea.ViewModels.ClassSectionVM
+
+
+        <div class="card">
+            <div class="card-header bg-info">
+                <h4 class="m-b-0 text-white"><i class="fa fa-plus-circle text-white m-r-10"></i>Add Class & Section Combination</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="card card-body">
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                @Html.AntiForgeryToken()
+                                <h4 class="card-title">Select Class</h4>
+
+                                @Html.DropDownListFor( model => model.ClassID, ViewBag.Classes as SelectList, "Select Class", htmlAttributes: new {@class = "form-control"})
+
+
+                            </div>
+
+                            <div class="card-body">
+                                <h4 class="card-title">Select Section</h4>
+
+                                @Html.DropDownListFor(model => model.SectionID, ViewBag.Sections as SelectList, "Select Section", htmlAttributes: new { @class = "form-control" })
+
+                            </div>
+                            <div class="form-group m-b-0">
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Add</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
